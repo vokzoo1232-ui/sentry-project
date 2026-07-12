@@ -19,15 +19,22 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // Database connection with error handling
+// DATABASE CONNECTION - FIXED
 const pool = new Pool({
-    user: process.env.DB_USER || 'sentry_admin',
-    host: process.env.DB_HOST || 'localhost',
-    database: process.env.DB_NAME || 'sentry_db',
-    password: process.env.DB_PASSWORD,
-    port: process.env.DB_PORT || 5432,
-    max: 20,
-    idleTimeoutMillis: 30000,
-    connectionTimeoutMillis: 2000,
+    connectionString: 'postgresql://neondb_owner:npg_0vhrNXQbP5wl@ep-crimson-water-at8rdny1.c-9.us-east-1.aws.neon.tech/neondb?sslmode=require',
+    ssl: {
+        rejectUnauthorized: false
+    }
+});
+
+// Test connection on startup
+pool.connect((err, client, release) => {
+    if (err) {
+        console.error('❌ Database connection error:', err.message);
+    } else {
+        console.log('✅ Database connected successfully!');
+        release();
+    }
 });
 
 pool.on('error', (err) => {
