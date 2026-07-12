@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5">
+    <title>Sentry · teacher dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0b0d0f;
+            color: #e8edf2;
+            font-family: 'Inter', -apple-system, system-ui, sans-serif;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            min-height: 100vh;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+
+        .app-container {
+            max-width: 1300px;
+            width: 100%;
+            background: #14171b;
+            border-radius: 28px;
+            padding: 2rem 2.2rem;
+            box-shadow: 0 20px 40px -12px rgba(0,0,0,0.7);
+        }
+
+        .nav-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+            gap: 0.8rem 1.5rem;
+        }
+
+        .logo {
+            font-weight: 600;
+            font-size: 1.5rem;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #b3d0ff, #7aa9ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.8rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+            .nav-links a {
+                color: #a8b3c0;
+                text-decoration: none;
+                font-weight: 500;
+                font-size: 0.95rem;
+                border-bottom: 2px solid transparent;
+                padding-bottom: 4px;
+                transition: 0.2s;
+                cursor: pointer;
+            }
+
+                .nav-links a.active {
+                    color: #f0f4fa;
+                    border-bottom-color: #4f8cff;
+                }
+
+                .nav-links a:hover {
+                    color: #e0e8f0;
+                    border-bottom-color: #4f8cff66;
+                }
+
+        .btn {
+            background: transparent;
+            border: 1px solid #2e3842;
+            color: #d6e0e8;
+            padding: 0.5rem 1.2rem;
+            border-radius: 40px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.15s;
+            background: #1f262e;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: #2f6eff;
+            border: 1px solid #2f6eff;
+            color: white;
+        }
+
+            .btn-primary:hover {
+                background: #1f5ae0;
+                border-color: #1f5ae0;
+            }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid #3d4a57;
+        }
+
+            .btn-outline:hover {
+                background: #20282f;
+                border-color: #5f6f80;
+            }
+
+        .btn-danger {
+            border-color: #c43a4b;
+            color: #f2a0ab;
+        }
+
+            .btn-danger:hover {
+                background: #3d1e24;
+                border-color: #d95a6b;
+            }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .page {
+            display: block;
+            animation: fade 0.2s ease;
+        }
+
+            .page.hidden {
+                display: none;
+            }
+
+        @keyframes fade {
+            0% {
+                opacity: 0.5;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .login-card {
+            max-width: 380px;
+            margin: 2.5rem auto;
+            background: #1b2128;
+            padding: 2.2rem 2rem;
+            border-radius: 32px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+        }
+
+            .login-card h2 {
+                font-weight: 500;
+                margin-bottom: 0.3rem;
+                font-size: 1.8rem;
+                letter-spacing: -0.02em;
+            }
+
+            .login-card .sub {
+                color: #8a9aad;
+                margin-bottom: 2rem;
+                font-size: 0.95rem;
+            }
+
+        .input-group {
+            margin-bottom: 1.2rem;
+        }
+
+            .input-group label {
+                display: block;
+                font-size: 0.8rem;
+                font-weight: 500;
+                color: #b0c0d0;
+                margin-bottom: 6px;
+                letter-spacing: 0.02em;
+            }
+
+            .input-group input {
+                width: 100%;
+                background: #0d1219;
+                border: 1px solid #28303b;
+                padding: 0.7rem 1rem;
+                border-radius: 40px;
+                color: #f0f5fc;
+                font-size: 0.95rem;
+                font-family: inherit;
+                transition: 0.1s;
+            }
+
+                .input-group input:focus {
+                    outline: none;
+                    border-color: #4f8cff;
+                    box-shadow: 0 0 0 3px #2f6eff33;
+                }
+
+        .login-error {
+            color: #f28b9b;
+            font-size: 0.85rem;
+            margin-top: 0.6rem;
+            background: #2c1a1f;
+            padding: 0.4rem 0.9rem;
+            border-radius: 30px;
+            display: inline-block;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.8rem;
+            flex-wrap: wrap;
+        }
+
+            .dashboard-header h2 {
+                font-weight: 500;
+                font-size: 1.6rem;
+                letter-spacing: -0.02em;
+            }
+
+        .stats-badge {
+            background: #1f2933;
+            padding: 0.3rem 1.2rem;
+            border-radius: 60px;
+            font-size: 0.8rem;
+            color: #b0c8dd;
+        }
+
+        .student-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .student-row {
+            background: #1b222a;
+            border-radius: 60px;
+            padding: 0.6rem 1.5rem 0.6rem 1.8rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid #29333e;
+            transition: 0.1s;
+        }
+
+            .student-row:hover {
+                border-color: #3c4a5a;
+                background: #1f2832;
+            }
+
+        .student-info {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 1rem 1.8rem;
+            flex: 2 1 260px;
+        }
+
+        .student-name {
+            font-weight: 500;
+            min-width: 100px;
+        }
+
+        .student-tab {
+            color: #b8cbdf;
+            font-size: 0.9rem;
+            background: #10171f;
+            padding: 0.15rem 1rem;
+            border-radius: 40px;
+            white-space: nowrap;
+            max-width: 260px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .student-time {
+            color: #a0b8ce;
+            font-size: 0.85rem;
+            background: #10171f;
+            padding: 0.15rem 0.9rem;
+            border-radius: 40px;
+            font-feature-settings: "tnum";
+        }
+
+        .student-actions {
+            display: flex;
+            gap: 0.6rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-block {
+            background: #2f1f24;
+            border: 1px solid #62343f;
+            color: #f5aebc;
+            padding: 0.25rem 1.2rem;
+            border-radius: 40px;
+            font-weight: 500;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: 0.1s;
+            font-family: inherit;
+        }
+
+            .btn-block:hover {
+                background: #45282f;
+                border-color: #a14a5a;
+                color: #ffd6df;
+            }
+
+        .panel-card {
+            background: #1b2128;
+            border-radius: 28px;
+            padding: 1.8rem 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid #29333e;
+        }
+
+            .panel-card h3 {
+                font-weight: 500;
+                font-size: 1.2rem;
+                margin-bottom: 1.2rem;
+                letter-spacing: -0.01em;
+            }
+
+        .rule-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid #232d38;
+        }
+
+            .rule-item:last-child {
+                border-bottom: none;
+            }
+
+        .rule-tag {
+            background: #1a2838;
+            padding: 0.15rem 1rem;
+            border-radius: 60px;
+            font-size: 0.8rem;
+            color: #b3cef0;
+        }
+
+        .flex-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem 2rem;
+            align-items: center;
+        }
+
+        .inline-input {
+            background: #0d1219;
+            border: 1px solid #2c3845;
+            padding: 0.5rem 1rem;
+            border-radius: 40px;
+            color: #eaf0f7;
+            font-family: inherit;
+            flex: 1 1 180px;
+        }
+
+            .inline-input:focus {
+                border-color: #4f8cff;
+                outline: none;
+            }
+
+        .settings-line {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #232d38;
+        }
+
+            .settings-line:last-child {
+                border-bottom: none;
+            }
+
+        .badge-status {
+            background: #1f3a2a;
+            color: #82d6a0;
+            padding: 0.1rem 1rem;
+            border-radius: 60px;
+            font-size: 0.8rem;
+        }
+
+        .text-muted {
+            color: #8a9dad;
+        }
+
+        .mt-2 {
+            margin-top: 1.2rem;
+        }
+
+        .mb-1 {
+            margin-bottom: 0.8rem;
+        }
+
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: #1f2933;
+            color: #e8edf2;
+            padding: 0.8rem 1.5rem;
+            border-radius: 40px;
+            border: 1px solid #3d4a57;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+            z-index: 1000;
+            animation: slideUp 0.3s ease;
+        }
+
+            .toast.error {
+                border-color: #c43a4b;
+                color: #f2a0ab;
+            }
+
+            .toast.success {
+                border-color: #4caf50;
+                color: #82d6a0;
+            }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .app-container {
+                padding: 1.2rem;
+            }
+
+            .student-row {
+                border-radius: 28px;
+                padding: 1rem;
+            }
+
+            .student-info {
+                gap: 0.5rem 1rem;
+            }
+
+            .student-tab {
+                max-width: 140px;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .login-card {
+                padding: 1.8rem 1.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .student-row {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.5rem;
+            }
+
+            .student-actions {
+                justify-content: flex-start;
+            }
+
+            .dashboard-header {
+                flex-direction: column;
+                align-items: start;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container" id="app">
+        <div class="nav-bar">
+            <span class="logo">⎈ sentry</span>
+            <div class="nav-links">
+                <a id="navDashboard" class="active" data-page="dashboard">Dashboard</a>
+                <a id="navAdmin" data-page="admin">Admin</a>
+                <a id="navSettings" data-page="settings">Settings</a>
+                <button class="btn btn-outline" id="logoutBtn" style="padding: 0.3rem 1.2rem;">Logout</button>
+            </div>
+        </div>
+
+        <div id="loginPage" class="page">
+            <div class="login-card">
+                <h2>Welcome back</h2>
+                <div class="sub">Sign in to monitor your class</div>
+                <div class="input-group">
+                    <label>Email</label>
+                    <input type="email" id="loginEmail" placeholder="teacher@school.edu" value="admin@school.com">
+                </div>
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" placeholder="••••••••" value="password123">
+                </div>
+                <button class="btn btn-primary" id="loginBtn" style="width:100%; margin-top: 0.4rem;">Sign in</button>
+                <div id="loginError" class="login-error hidden"></div>
+            </div>
+        </div>
+
+        <div id="dashboardPage" class="page hidden">
+            <div class="dashboard-header">
+                <h2>📊 Live activity</h2>
+                <span class="stats-badge" id="studentCount">0 students</span>
+            </div>
+            <div id="studentList" class="student-grid"></div>
+        </div>
+
+        <div id="adminPage" class="page hidden">
+            <div class="panel-card">
+                <h3>⚙️ Rules · blacklist / whitelist</h3>
+                <div class="flex-row mb-1">
+                    <input type="text" id="ruleInput" class="inline-input" placeholder="e.g. youtube.com" style="flex:2;">
+                    <select id="ruleType" class="inline-input" style="flex:0.5;">
+                        <option value="blacklist">Blacklist</option>
+                        <option value="whitelist">Whitelist</option>
+                        <option value="schedule">Schedule</option>
+                    </select>
+                    <button class="btn btn-primary" id="addRuleBtn">Add rule</button>
+                </div>
+                <div id="rulesList"></div>
+            </div>
+            <div class="panel-card">
+                <h3>👥 Teachers</h3>
+                <div class="flex-row">
+                    <span class="text-muted">Add teacher</span>
+                    <input type="email" id="newTeacherEmail" class="inline-input" placeholder="new@teacher.com" style="flex:1;">
+                    <button class="btn btn-outline" id="addTeacherBtn">Add</button>
+                </div>
+                <div id="teacherList" class="mt-2" style="font-size:0.9rem; color:#b8c8db;"></div>
+            </div>
+            <div class="panel-card">
+                <h3>📋 School-wide logs</h3>
+                <div id="schoolLogs" style="font-size:0.9rem; color:#b8c8db;"></div>
+                <button class="btn btn-outline mt-2" id="refreshLogsBtn">Refresh logs</button>
+            </div>
+        </div>
+
+        <div id="settingsPage" class="page hidden">
+            <div class="panel-card">
+                <h3>🔐 Change password</h3>
+                <div class="input-group" style="max-width:300px;">
+                    <label>New password</label>
+                    <input type="password" id="newPassword" class="inline-input" placeholder="new password" minlength="8">
+                </div>
+                <button class="btn btn-primary" id="changePwBtn">Update password</button>
+            </div>
+            <div class="panel-card">
+                <h3>🏫 School info</h3>
+                <div id="schoolInfo"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+        // ===== CONFIG =====
+        const API_BASE = window.location.origin + '/api'; // or set explicitly: 'https://your-api.com/api'
+        let schoolId = null;
+        let adminId = null;
+
+        // ===== API HELPERS =====
+        function getToken() {
+        return localStorage.getItem('sentry_token');
+        }
+
+        function setToken(token) {
+        if (token) localStorage.setItem('sentry_token', token);
+        else localStorage.removeItem('sentry_token');
+        }
+
+        function getHeaders() {
+        const token = getToken();
+        return {
+        'Content-Type': 'application/json',
+        ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+        };
+        }
+
+        async function apiFetch(endpoint, options = {}) {
+        const url = endpoint.startsWith('http') ? endpoint : `${API_BASE}${endpoint}`;
+        const response = await fetch(url, {
+        ...options,
+        headers: {
+        ...getHeaders(),
+        ...options.headers
+        }
+        });
+
+        if (response.status === 401) {
+        // Token expired or invalid
+        setToken(null);
+        updateUI();
+        throw new Error('Session expired. Please login again.');
+        }
+
+        const data = await response.json();
+        if (!response.ok) {
+        throw new Error(data.error || data.message || 'API request failed');
+        }
+        return data;
+        }
+
+        // ===== SPECIFIC API CALLS =====
+        async function login(email, password) {
+        const data = await apiFetch('/auth/login', {
+        method: 'POST',
+        body: JSON.stringify({ email, password })
+        });
+        setToken(data.token);
+        schoolId = data.admin.school_id;
+        adminId = data.admin.id;
+        return data;
+        }
+
+        async function getLogs(schoolId, limit = 50) {
+        return await apiFetch(`/schools/${schoolId}/logs?limit=${limit}`);
+        }
+
+        async function getRules(schoolId) {
+        return await apiFetch(`/schools/${schoolId}/rules`);
+        }
+
+        async function createRule(schoolId, ruleData) {
+        return await apiFetch(`/schools/${schoolId}/rules`, {
+        method: 'POST',
+        body: JSON.stringify(ruleData)
+        });
+        }
+
+        async function deleteRule(schoolId, ruleId) {
+        return await apiFetch(`/schools/${schoolId}/rules/${ruleId}`, {
+        method: 'DELETE'
+        });
+        }
+
+        async function getAdmins(schoolId) {
+        return await apiFetch(`/schools/${schoolId}/admins`);
+        }
+
+        // ===== UI STATE =====
+        let students = [
+        { id: 's1', name: 'Emma Johnson', tab: 'Google Docs – Essay draft', time: '12m' },
+        { id: 's2', name: 'Liam Chen', tab: 'Khan Academy – Algebra', time: '8m' },
+        { id: 's3', name: 'Sophia Patel', tab: 'YouTube – History documentary', time: '3m' },
+        ];
+
+        // ===== DOM REFS =====
+        const loginPage = document.getElementById('loginPage');
+        const dashboardPage = document.getElementById('dashboardPage');
+        const adminPage = document.getElementById('adminPage');
+        const settingsPage = document.getElementById('settingsPage');
+        const studentList = document.getElementById('studentList');
+        const studentCount = document.getElementById('studentCount');
+        const loginError = document.getElementById('loginError');
+        const navDashboard = document.getElementById('navDashboard');
+        const navAdmin = document.getElementById('navAdmin');
+        const navSettings = document.getElementById('navSettings');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const loginBtn = document.getElementById('loginBtn');
+        const loginEmail = document.getElementById('loginEmail');
+        const loginPassword = document.getElementById('loginPassword');
+        const ruleInput = document.getElementById('ruleInput');
+        const ruleType = document.getElementById('ruleType');
+        const addRuleBtn = document.getElementById('addRuleBtn');
+        const rulesList = document.getElementById('rulesList');
+        const schoolLogs = document.getElementById('schoolLogs');
+        const refreshLogsBtn = document.getElementById('refreshLogsBtn');
+        const newTeacherEmail = document.getElementById('newTeacherEmail');
+        const addTeacherBtn = document.getElementById('addTeacherBtn');
+        const teacherList = document.getElementById('teacherList');
+        const changePwBtn = document.getElementById('changePwBtn');
+        const newPassword = document.getElementById('newPassword');
+        const schoolInfo = document.getElementById('schoolInfo');
+
+        // ===== TOAST NOTIFICATIONS =====
+        function showToast(message, type = 'success') {
+        const existing = document.querySelector('.toast');
+        if (existing) existing.remove();
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
+        }
+
+        // ===== NAVIGATION =====
+        function showPage(pageId) {
+        [loginPage, dashboardPage, adminPage, settingsPage].forEach(p => p.classList.add('hidden'));
+        document.getElementById(pageId).classList.remove('hidden');
+        document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+        if (pageId === 'dashboardPage') navDashboard.classList.add('active');
+        else if (pageId === 'adminPage') navAdmin.classList.add('active');
+        else if (pageId === 'settingsPage') navSettings.classList.add('active');
+        }
+
+        // ===== RENDER FUNCTIONS =====
+        function renderStudents() {
+        if (!studentList) return;
+        if (students.length === 0) {
+        studentList.innerHTML = `<div class="student-row" style="justify-content:center; color:#7f8f9f;">No active students</div>`;
+        studentCount.textContent = '0 students';
+        return;
+        }
+        let html = '';
+        students.forEach(s => {
+        html += `
+        <div class="student-row" data-id="${s.id}">
+        <div class="student-info">
+        <span class="student-name">${s.name}</span>
+        <span class="student-tab">${s.tab}</span>
+        <span class="student-time">⏱ ${s.time}</span>
+        </div>
+        <div class="student-actions">
+        <button class="btn-block" data-id="${s.id}">Block</button>
+        </div>
+        </div>
+        `;
+        });
+        studentList.innerHTML = html;
+        studentCount.textContent = `${students.length} students`;
+        document.querySelectorAll('.btn-block').forEach(btn => {
+        btn.addEventListener('click', function() {
+        const id = this.getAttribute('data-id');
+        students = students.filter(s => s.id !== id);
+        renderStudents();
+        showToast(`Blocked student ${id}`, 'success');
+        });
+        });
+        }
+
+        async function renderRules() {
+        if (!rulesList) return;
+        try {
+        const data = await getRules(schoolId);
+        const rules = data || [];
+        if (rules.length === 0) {
+        rulesList.innerHTML = '<div class="text-muted" style="padding:0.4rem 0;">No rules defined</div>';
+        return;
+        }
+        let html = '';
+        rules.forEach(r => {
+        html += `
+        <div class="rule-item">
+        <span><span class="rule-tag">${r.type}</span> ${r.pattern}</span>
+        <button class="btn btn-danger" style="padding:0.1rem 1rem; font-size:0.75rem;" data-id="${r.id}">Delete</button>
+        </div>
+        `;
+        });
+        rulesList.innerHTML = html;
+        document.querySelectorAll('#rulesList .btn-danger').forEach(btn => {
+        btn.addEventListener('click', async function() {
+        const id = this.getAttribute('data-id');
+        try {
+        await deleteRule(schoolId, id);
+        showToast('Rule deleted', 'success');
+        await renderRules();
+        } catch (err) {
+        showToast(err.message, 'error');
+        }
+        });
+        });
+        } catch (err) {
+        rulesList.innerHTML = `<div class="text-muted" style="color:#f28b9b;">Error loading rules: ${err.message}</div>`;
+        }
+        }
+
+        async function renderLogs() {
+        if (!schoolLogs) return;
+        try {
+        const data = await getLogs(schoolId, 20);
+        const logs = data.data || [];
+        if (logs.length === 0) {
+        schoolLogs.innerHTML = '<div class="text-muted">No logs found</div>';
+        return;
+        }
+        let html = '';
+        logs.slice(0, 10).forEach(log => {
+        const time = new Date(log.timestamp).toLocaleTimeString();
+        html += `<div>📌 ${time} - ${log.window_title || 'Unknown'} ${log.url ? `(${log.url})` : ''}</div>`;
+        });
+        schoolLogs.innerHTML = html;
+        } catch (err) {
+        schoolLogs.innerHTML = `<div class="text-muted" style="color:#f28b9b;">Error loading logs: ${err.message}</div>`;
+        }
+        }
+
+        async function renderAdmins() {
+        if (!teacherList) return;
+        try {
+        const data = await getAdmins(schoolId);
+        const admins = data || [];
+        if (admins.length === 0) {
+        teacherList.innerHTML = '<div class="text-muted">No teachers found</div>';
+        return;
+        }
+        let html = '';
+        admins.forEach(a => {
+        html += `<div>• ${a.name || a.email} ${a.is_active ? '✅' : '❌'}</div>`;
+        });
+        teacherList.innerHTML = html;
+        } catch (err) {
+        teacherList.innerHTML = `<div class="text-muted" style="color:#f28b9b;">Error loading teachers: ${err.message}</div>`;
+        }
+        }
+
+        function renderSchoolInfo() {
+        schoolInfo.innerHTML = `
+        <div class="settings-line"><span>School ID</span> <span>${schoolId}</span></div>
+        <div class="settings-line"><span>Subscription</span> <span class="badge-status">● active (Pro)</span></div>
+        <div class="settings-line"><span>Plan</span> <span>Unlimited seats</span></div>
+        `;
+        }
+
+        // ===== UPDATE UI =====
+        function updateUI() {
+        const token = getToken();
+        if (token) {
+        loginPage.classList.add('hidden');
+        showPage('dashboardPage');
+        renderStudents();
+        renderRules();
+        renderLogs();
+        renderAdmins();
+        renderSchoolInfo();
+        } else {
+        showPage('loginPage');
+        loginPage.classList.remove('hidden');
+        loginError.classList.add('hidden');
+        schoolId = null;
+        adminId = null;
+        }
+        }
+
+        // ===== EVENT LISTENERS =====
+        loginBtn.addEventListener('click', async function() {
+        const email = loginEmail.value.trim();
+        const pass = loginPassword.value.trim();
+        loginError.classList.add('hidden');
+        loginBtn.disabled = true;
+        loginBtn.textContent = 'Signing in...';
+        try {
+        await login(email, pass);
+        showToast('Login successful!', 'success');
+        updateUI();
+        } catch (err) {
+        loginError.textContent = err.message || 'Login failed';
+        loginError.classList.remove('hidden');
+        showToast(err.message, 'error');
+        } finally {
+        loginBtn.disabled = false;
+        loginBtn.textContent = 'Sign in';
+        }
+        });
+
+        logoutBtn.addEventListener('click', function() {
+        setToken(null);
+        showToast('Logged out', 'success');
+        updateUI();
+        });
+
+        navDashboard.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (getToken()) {
+        showPage('dashboardPage');
+        renderStudents();
+        }
+        });
+
+        navAdmin.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (getToken()) {
+        showPage('adminPage');
+        renderRules();
+        renderLogs();
+        renderAdmins();
+        }
+        });
+
+        navSettings.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (getToken()) showPage('settingsPage');
+        });
+
+        refreshLogsBtn.addEventListener('click', async function() {
+        await renderLogs();
+        showToast('Logs refreshed', 'success');
+        });
+
+        addRuleBtn.addEventListener('click', async function() {
+        const pattern = ruleInput.value.trim();
+        const type = ruleType.value;
+        if (!pattern) {
+        showToast('Please enter a pattern', 'error');
+        return;
+        }
+        addRuleBtn.disabled = true;
+        try {
+        await createRule(schoolId, {
+        name: pattern,
+        type: type,
+        pattern: pattern,
+        action: type === 'whitelist' ? 'allow' : 'block',
+        priority: 0
+        });
+        showToast('Rule added successfully', 'success');
+        ruleInput.value = '';
+        await renderRules();
+        } catch (err) {
+        showToast(err.message, 'error');
+        } finally {
+        addRuleBtn.disabled = false;
+        }
+        });
+
+        addTeacherBtn.addEventListener('click', async function() {
+        const email = newTeacherEmail.value.trim();
+        if (!email) {
+        showToast('Please enter an email', 'error');
+        return;
+        }
+        // Note: Your API might need a specific endpoint for adding teachers
+        // This is a placeholder - implement based on your actual API
+        showToast(`Teacher ${email} would be added (API endpoint needed)`, 'success');
+        newTeacherEmail.value = '';
+        });
+
+        changePwBtn.addEventListener('click', async function() {
+        const pw = newPassword.value.trim();
+        if (pw.length < 8) {
+        showToast('Password must be at least 8 characters', 'error');
+        return;
+        }
+        // Note: Implement password change endpoint
+        showToast('Password would be updated (API endpoint needed)', 'success');
+        newPassword.value = '';
+        });
+
+        // Enter key for login
+        document.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && !loginPage.classList.contains('hidden')) {
+        loginBtn.click();
+        }
+        });
+
+        // Auto-refresh logs every 30 seconds
+        let refreshInterval;
+        function startAutoRefresh() {
+        if (refreshInterval) clearInterval(refreshInterval);
+        refreshInterval = setInterval(() => {
+        if (getToken() && !adminPage.classList.contains('hidden')) {
+        renderLogs();
+        }
+        }, 30000);
+        }
+
+        // ===== INIT =====
+        updateUI();
+        startAutoRefresh();
+
+        // Override renderLogs to handle empty state better
+        const originalRenderLogs = renderLogs;
+        renderLogs = async function() {
+        if (!schoolLogs) return;
+        try {
+        const data = await getLogs(schoolId, 20);
+        const logs = data.data || [];
+        if (logs.length === 0) {
+        schoolLogs.innerHTML = '<div class="text-muted">No logs found. Daemon may not be running yet.</div>';
+        return;
+        }
+        let html = '';
+        logs.slice(0, 10).forEach(log => {
+        const time = new Date(log.timestamp).toLocaleTimeString();
+        const blocked = log.blocked ? '🚫' : '✅';
+        html += `<div>${blocked} ${time} - ${log.window_title || 'Unknown'} ${log.url ? `(${log.url})` : ''}</div>`;
+        });
+        schoolLogs.innerHTML = html;
+        } catch (err) {
+        schoolLogs.innerHTML = `<div class="text-muted" style="color:#f28b9b;">Error loading logs: ${err.message}</div>`;
+        }
+        };
+
+        // Update renderRules to handle API response format
+        const originalRenderRules = renderRules;
+        renderRules = async function() {
+        if (!rulesList) return;
+        try {
+        const data = await getRules(schoolId);
+        const rules = Array.isArray(data) ? data : (data.data || []);
+        if (rules.length === 0) {
+        rulesList.innerHTML = '<div class="text-muted" style="padding:0.4rem 0;">No rules defined</div>';
+        return;
+        }
+        let html = '';
+        rules.forEach(r => {
+        html += `
+        <div class="rule-item">
+        <span><span class="rule-tag">${r.type}</span> ${r.pattern}</span>
+        <button class="btn btn-danger" style="padding:0.1rem 1rem; font-size:0.75rem;" data-id="${r.id}">Delete</button>
+        </div>
+        `;
+        });
+        rulesList.innerHTML = html;
+        document.querySelectorAll('#rulesList .btn-danger').forEach(btn => {
+        btn.addEventListener('click', async function() {
+        const id = this.getAttribute('data-id');
+        try {
+        await deleteRule(schoolId, id);
+        showToast('Rule deleted', 'success');
+        await renderRules();
+        } catch (err) {
+        showToast(err.message, 'error');
+        }
+        });
+        });
+        } catch (err) {
+        rulesList.innerHTML = `<div class="text-muted" style="color:#f28b9b;">Error loading rules: ${err.message}</div>`;
+        }
+        };
+
+        console.log('✅ Sentry frontend initialized with API integration');
+        console.log(`📡 API Base: ${API_BASE}`);
+        console.log('🔑 Token:', getToken() ? 'present' : 'none');
+
+        // Expose for debugging
+        window.__sentry = { login, getLogs, getRules, createRule, deleteRule, getAdmins, schoolId };
+        })();
+    </script>
+</body>
+</html>
